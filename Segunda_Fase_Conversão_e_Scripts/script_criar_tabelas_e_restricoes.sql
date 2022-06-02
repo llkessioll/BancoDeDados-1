@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS "exemplar" CASCADE;
 DROP TABLE IF EXISTS "login" CASCADE;
 DROP TABLE IF EXISTS "cliente" CASCADE;
 DROP TABLE IF EXISTS "sebo" CASCADE;
+DROP TABLE IF EXISTS "carrinho" CASCADE;
 DROP TABLE IF EXISTS "venda" CASCADE;
 DROP TABLE IF EXISTS "telefoneusuario" CASCADE;
 DROP TABLE IF EXISTS "autorlivro" CASCADE;
@@ -55,7 +56,7 @@ CREATE TABLE usuario(
 );
 
 CREATE TABLE livro(
-    isbn int,
+    isbn varchar(14),
     codeditora int,
     titulo varchar(50) NOT NULL,
     anopublicacao date NOT NULL,
@@ -66,7 +67,7 @@ CREATE TABLE livro(
 CREATE TABLE exemplar(
     cod int,
     quantidade int,
-    isbn int,
+    isbn varchar(14),
     CONSTRAINT exemplar_pk PRIMARY KEY(cod),
     CONSTRAINT exemplar_fk FOREIGN KEY (isbn) REFERENCES livro(isbn)
 );
@@ -111,14 +112,14 @@ CREATE TABLE venda(
 
 CREATE TABLE telefoneusuario(
     codusuario int,
-    telefone varchar(11),
+    telefone varchar(15),
     CONSTRAINT telefonevenda_pk PRIMARY KEY(codusuario, telefone),
     CONSTRAINT telefonevenda_fk FOREIGN KEY(codusuario) REFERENCES usuario(cod)
 );
 
 CREATE TABLE autorlivro(
     codautor int,
-    isbn int,
+    isbn varchar(14),
     CONSTRAINT autorlivro_pk PRIMARY KEY(codautor, isbn),
     CONSTRAINT autorlivro_fk FOREIGN KEY(codautor) REFERENCES autor(cod) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT isbnlivro_fk FOREIGN KEY(isbn) REFERENCES livro(isbn) ON UPDATE CASCADE ON DELETE CASCADE 
@@ -141,7 +142,7 @@ CREATE TABLE categoriausuario(
 );
 
 CREATE TABLE categorialivro(
-    isbn int,
+    isbn varchar(14),
     codcategoria int,
     CONSTRAINT categorialivro_pk PRIMARY KEY(isbn, codcategoria),
     CONSTRAINT categorialivro_fk FOREIGN KEY(isbn) REFERENCES livro(isbn) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -174,6 +175,6 @@ CREATE TABLE vendaexemplar(
 
 
 
-ALTER TABLE sebo ADD COLUMN razaosicial varchar(150) NOT NULL;
+ALTER TABLE sebo ADD COLUMN razaosocial varchar(150) NOT NULL;
 
 ALTER TABLE exemplar ADD COLUMN estado varchar(50) NOT NULL DEFAULT 'NOVO';
